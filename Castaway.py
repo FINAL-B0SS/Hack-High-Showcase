@@ -6,7 +6,7 @@
 #    By: maljean <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/01 16:38:37 by maljean           #+#    #+#              #
-#    Updated: 2018/11/01 19:31:57 by maljean          ###   ########.fr        #
+#    Updated: 2018/11/09 14:53:11 by maljean          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,75 @@ flares = 1
 pistols = 1
 bullets = 3
 compass = 0
+
+def exitCave():
+    clear()
+    stock()
+    print("""You go back to the mouth of the cave. Now what?""")
+    if input("a. Go into the jungle.\nb. Wade into the stream.\n") == "a":
+        goIntoTheJungle()
+    else:
+        wadeStream()
+
+def pickUp():
+    clear()
+    global compass
+    compass += 1
+    stock()
+    print("""
+You pick up the object and carry on. It turns out to be a compass -- maybe it will be useful later. Meanwhile, the tunnel goes round in a circle, and you find yourself back at the mouth of the cave. You are beginning to lose heart.\n""")
+    answer = input("a. Shoot yourself.\nb. Go into the jungle.\nc. Wade into the stream.\n")
+    if answer == "a":
+        clear()
+        print("""You shoot yourself in despair. Immediately afterwards, a rescue helicopter arrives on the island, and takes your body back to be buried.
+
+It's all over!\n""")
+    elif answer == "b":
+        goIntoTheJungle()
+    elif answer == "c":
+        wadeStream()
+
+def leaveIt():
+    clear()
+    stock()
+    print ("""The tunnel goes round in a circle, and you find yourself back at the mouth of the cave. You are beginning to lose heart.""")
+    answer = input("a. Shoot yourself.\nb. Go into the jungle.\nc. Wade into the stream.\n")
+    if answer == "a":
+        clear()
+        print("""You shoot yourself in despair. Immediately afterwards, a rescue helicopter arrives on the island, and takes your body back to be buried.
+
+It's all over!\n""")
+    elif answer == "b":
+        goIntoTheJungle()
+    elif answer == "c":
+        wadeStream()
+
+def contCave():
+    clear()
+    stock()
+    print("""You continue into the cave. You stumble and fall, and your leg touches something hard.\n""")
+    if input("a. Pick it up and carry on.\nb. Leave it and carry on.\n") == "a":
+        pickUp()
+    else:
+        leaveIt()
+
+def fork():
+    clear()
+    stock()
+    print ("""You go down the tunnel. You can hardly see anything in the dark. What do you do?\n""")
+    if input("a. Go back out of the cave.\nb. Continue into the cave.\n") == "a":
+        exitCave()
+    else:
+        contCave()
+
+def enterCave():
+    clear()
+    stock()
+    print ("""You go into the cave. It's very dark. There are two tunnels, left and right. Which one do you take?\n""")
+    if input("a. Take the left fork.\nb. Take the right fork.\n") == "a":
+        fork()
+    else:
+        fork()
 
 def giveUp():
     clear()
@@ -93,9 +162,37 @@ def exitWater():
     else:
         climbHill()
 
+def guessIt():
+    clear()
+    stock()
+    print ("""You do your best to find your way to the shipping lane, but you get hopelessly lost. After several days, you are in total despair.""")
+    if input("a. Shoot yourself.\nb. Don't shoot yourself.\n") == "a":
+        clear()
+        print ("""You shoot yourself in despair. Immediately afterwards, a rescue helicopter arrives on the island, and takes your body back to be buried.
+
+It's all over!\n""")
+    else:
+        clear()
+        print ("""You slowly starve to death. Eventually, you don't even have enough energy to shoot yourself. You wish you had, but it's too late. Never mind.
+
+It's all over!\n""")
+
 def sailBoat():
     clear()
     stock()
+    global compass
+    print("""You steer your boatsailboat.gif out to sea. You know that there is a shipping lane to the north west.\n""")
+    if compass > 0:
+        if input("a. Steer north-west using the compass.\nb. Guess where north west is and try to steer in that direction.\n") == "a":
+            clear()
+            print ("""You use the compass to steer your boat to the north-west. Eventually, you reach the shipping lanes, and a boat full of migrants picks you up and takes you directly to the West Coast of Canada, where you start a new adventure! Well done -- you've saved yourself.
+
+You made it!\n""")
+        else:
+            guessIt()
+    else:
+        input("a. Guess where north west is and try to steer in that direction.\n")
+        guessIt()
 
 def relax():
     clear()
@@ -143,7 +240,7 @@ def runFromLizard():
     clear()
     stock()
     print ("""You turn and run away from the lizard. However, the lizard comes after you. You are unable to run fast enough to escape. What do you do?\n""")
-    answer == input("a. Run back to the beach and start swimming out to sea.\nb. Shoot the lizard again.")
+    answer = input("a. Run back to the beach and start swimming out to sea.\nb. Shoot the lizard again.")
     if answer == "a":
         backToBeach()
     else:
@@ -151,6 +248,7 @@ def runFromLizard():
 
 def climbTree():
     clear()
+    stock()
     print("""You climb up a tree to escape the lizard. For about fifteen minutes, he paces around the bottom of the tree, sniffing and roaring, but then he gives up and shuffles away. You hear him moving away into the jungle.\n""")
     continueJungle()
 
@@ -189,7 +287,34 @@ def goTowardsTheAnimalNoises():
         else:
             shootLizard()
 
-#def moveAwayFromTheAnimalNoises():
+def confrontAnimal():
+    clear()
+    stock()
+    print("""You stop, with your back to a large tree, and wait for the animal to emerge from the bushes. It soon appears. It is a huge lizard, about two metres long -- possibly a Komodo dragon. It glares at you hungrily.\n""")
+    answer = input("""a. Pick up a large stick and hit the lizard.\nb. Fire your pistol to scare the lizard away.\nc. Shoot the lizard with your pistol.\n""")
+    if answer == "a":
+        stickLizard()
+    elif answer == "b":
+        if bullets == 0:
+            clear()
+            print("You're out of bullets, the lizard kills you")
+        else:
+            scareLizard()
+    else:
+        if bullets == 0:
+            clear()
+            print("You're out of bullets, the lizard kills you")
+        else:
+            shootLizard()
+
+def moveAwayFromTheAnimalNoises():
+    clear()
+    stock()
+    print ("""You turn away into the jungle to escape from the animal. However, after a little while you realize that the noises are still getting closer. The animal is following you!\n""")
+    if input("a. Climb a tree to get out of the animal's way.\nb. Wait to confront the animal.\n") == "a":
+        climbTree()
+    else:
+        confrontAnimal()
 
 def goIntoTheJungle():
     clear()
@@ -201,7 +326,12 @@ def goIntoTheJungle():
         moveAwayFromTheAnimalNoises()
 
 def stock():
-    print("You have:\nFlares: {}\nPistols: {}\nBullets: {}\n".format(str(flares),str(pistols),str(bullets)))
+    print("You have:\nFlares: {}\nPistols: {}\nBullets: {}".format(str(flares),str(pistols),str(bullets)))
+    global compass
+    if compass > 0:
+        print ("compass: {}\n".format(str(compass)))
+    else:
+        print ("\n")
 
 print ("""Can you survive shipwreck on a desert island?
 
