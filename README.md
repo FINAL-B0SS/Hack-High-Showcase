@@ -9,5 +9,5 @@ Survive in these short interactive stories
 
 ## Story credit
 
-[`Castaway`](http://www.halfbakedsoftware.com/quandary/version_2/examples/castaway.htm)
+['Castaway'](http://www.halfbakedsoftware.com/quandary/version_2/examples/castaway.htm)
 ['The Red Letter'](https://www.write4fun.net/view-entry/205506)
